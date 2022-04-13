@@ -14,10 +14,9 @@ import nltk
 from nltk.corpus import stopwords
 stop_words = stopwords.words('english')
 
+raw = text.split('. ')
+splits1 = [text.split(' ') for text in raw]
 
-# 2.2. 문장 단위 분절
-sentences = text.split('. ')
-words_in_sentences = [sentence.split(' ') for sentence in sentences]
-print(words_in_sentences)
-    
-# print(word_tokens)
+splits2 = splits1[:-1].split()
+
+# 2.2. Punctuation 삭제
