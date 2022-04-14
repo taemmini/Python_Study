@@ -1,17 +1,18 @@
-#구구단을 def로 표현한 것. 결국 세번째
+# 3.1. 구구단을 def로 표현 시작범위, 끝범위를 정하면 각각 1, 2, 3번 선택지에 해당하는 부분을 작성할 수 있음
 def gugudan(num1, num2):
-    if (num1 > num2) or (num1 <= 0) or (num1 >= 10) or (num2 <= 0) or (num2 >= 10):
-        print("잘못 입력하셨습니다.")
-    else:
-        while (num1 <= num2):
-            for n in range(num1, num2+1):
-                print(f'------------{n}단-----------')
-                for x in range(1,10):
-                    print(f'{n} * {x} = {n*x}')
+    if (num1 <= num2) and {(0 < num1 < 10) or (0< num2 < 10)}:
+        for n in range(num1, num2+1):
+            print(f'------------{n}단-----------')
+            for x in range(1,10):
+                print(f'{n} * {x} = {n*x}')
             else:
                 break
         print('--------------------------')
         print('이용해주셔서 감사합니다.')
+    else:
+        print("잘못 입력하셨습니다.")
 
-
-gugudan(2, 2)
+print( """ 하나의 구구단을 알고자 한다면 같은 숫자를
+           1단부터 알고자 하는 부분까지의 구구단을 알고자 한다면 1, (알고자 하는 구구단)을
+           알고싶은 범위가 정해져 있다면 (시작 단), (끝 단)을 입력한다.
+       """)
