@@ -12,7 +12,7 @@ while True:
             break
         else:
             print("선택지 오류") #1.5 재확인
-    else:
+    elif selection.isalnum():
         selection = int(selection)
         if  selection == 1:
             num1 = input("구구단 외우기:")
@@ -34,7 +34,7 @@ while True:
                     break
                 else:
                     print("입력 오류") #1.5 재확인
-        if  selection == 2:
+        elif  selection == 2:
             num1 = input("끝낼 단:")
             if num1.isalpha():
                 if num1 == 'q': # 1.4. 조건3
@@ -78,5 +78,5 @@ while True:
                             break
                 else:
                     print("입력 오류")
-            else:
-                print("입력 오류") #1.5 재확인
+    else:
+        print("입력 오류")

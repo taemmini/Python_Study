@@ -1,22 +1,47 @@
-# 2. 해리포터 정제하기
-
-# 2.1. 해리포터 불러오기
 txtfile = open('C:/Users/samsu/Desktop/HarryPotter.txt','rt',encoding='UTF8')
 text = txtfile.read()
 txtfile.close()
 
-# 2.2. punctuation 가져오기
 import string
 punc = list(string.punctuation)
 
-# 2.3. 불용어 가져오기
 import nltk
 from nltk.corpus import stopwords
 stop_words = stopwords.words('english')
 
-raw = text.split('. ')
-splits1 = [text.split(' ') for text in raw]
+splits1 = text.split("\n")
 
-splits2 = splits1[:-1].split()
+while '/ ' in splits1: 
+    splits1.remove('/ ')
 
-# 2.2. Punctuation 삭제
+while '' in splits1:
+    splits1.remove('')
+
+page = [sents for sents in splits1 if sents.endswith("J.K. Rowling ")] 
+splits2 = [sent for sent in splits1 if sent not in page]
+            
+temp = ''
+sent_combined = []
+check = 0
+for element in splits2:
+    if element == 'Mr.':
+        check += 1
+    elif element == 'Mrs.':
+        check += 1
+    else:
+        temp += element
+if temp.strip():
+    sent_combined.append(temp)
+
+sent_combined = "".join(sent_combined)
+tokens = sent_combined.split(' ')
+
+word1 = []
+for word in tokens:
+    word1 += word.split('-')
+    
+word2 = []
+for word in tokens:
+    word2 += word.split('.')
+    
+print(word2)
