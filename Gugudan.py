@@ -85,7 +85,6 @@ while True:
                             print('--------------------------')
                             print('이용해주셔서 감사합니다.')
                         break
-
                 else:
                     print("입력 오류") #1.5 재확인
                     continue

@@ -1,4 +1,4 @@
-# 3.
+# 2.
 txtfile = open('C:/Users/samsu/Desktop/HPBook1.txt','rt',encoding='UTF8')
 text = txtfile.read()[7:]
 text = '\n'.join([sent for sent in text.split('\n') if not sent.startswith('Page |')])
@@ -28,26 +28,24 @@ for i in punc: #문장부호
 
 sentence_tokens = [sentences for sentences in text.split('ENDL') if sentences]
 
-# word tokenizer
-word_tokens = [[word for word in sentence.split() if word] for sentence in sentence_tokens]
+# word tokenizer (하이픈 분리, 어포스트로피 구분)
+pre_words = [[word.replace('’', "'").split('-') for word in sentence.split() if word] for sentence in sentence_tokens]
+pre_tokens = [[word for word in sentence] for sentence in pre_words]
+word_tokens = sum(pre_tokens, [])
 
-# 불필요 토큰 제거
+# 불필요 토큰 제거 (어포스트로피 제거)
 import nltk
 from nltk.corpus import stopwords
 stop_words = stopwords.words('english')
-go_words = [[word for word in sentences.split() if word.lower() not in stop_words] for sentences in sentence_tokens]
-
-# 어포스트로피, 하이픈 구분
-
-
-# 불필요 토큰 한번 더 제거
-go_words2 = [word for word in go_words if word not in stop_words]
+pro_tokens = [[word.split("'") for word in sentence] for sentence in word_tokens]
+pro_tokens = sum(pro_tokens, [])
+go_words = [[word for word in sentences if word.lower() not in stop_words] for sentences in pro_tokens] 
 
 # uncasing
-corpus =  [word for sentence in go_words for word in sentence]
+corpus = [word.lower() for sentence in go_words for word in sentence if word]
 
 # 총 토큰 수
-print(f'총 토큰 수: {len(corpus)}')
+print(f'총 토큰 수: {len(set(corpus))}')
 
 # Frequiency Distribution
 from nltk.probability import FreqDist 
