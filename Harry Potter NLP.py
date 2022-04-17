@@ -4,9 +4,11 @@ text = txtfile.read()[7:]
 text = '\n'.join([sent for sent in text.split('\n') if not sent.startswith('Page |')])
 
 # 문장부호 추출
+import imp
 import string
+from turtle import goto
 punc = list(string.punctuation)
-punc.remove('-') #하이픈에 따른 분류를 위해\
+punc.remove('-') #하이픈에 따른 분류를 위해
 
 # sentence tokenizer
 end_letter = ['. ','? ','! ','.”','?”','!”', "'", '"']
@@ -30,33 +32,24 @@ sentence_tokens = [sentences for sentences in text.split('ENDL') if sentences]
 word_tokens = [[word for word in sentence.split() if word] for sentence in sentence_tokens]
 
 # 불필요 토큰 제거
+import nltk
 from nltk.corpus import stopwords
 stop_words = stopwords.words('english')
 go_words = [[word for word in sentences.split() if word.lower() not in stop_words] for sentences in sentence_tokens]
 
-HYPHEN, APOSTROPHE = '-', '’'
+# 어포스트로피, 하이픈 구분
 
-output = []
-for sentence in go_words:
-    temp = []
-    for word in sentence:
-        # 문장부호 아닌지 다시 확인
-        if word not in punc and word: # not empty
-            if APOSTROPHE in word:
-                # She's -> [She, 's] 
-                # fur-pieces's -> [fur-pieces, 's]
-                index = word.find(APOSTROPHE)
-                words = word[:index], word[index:]
-                print('[Case 1: {}] {}'.format(APOSTROPHE, words))
-            else: 
-                words = [word]
-            # Change hypens
-            for word in words:
-                if HYPHEN in word:
-                    index = word.find(HYPHEN)
-                    words = word[:index], word[index+1:]
-                    print('[Case 2: {}] {}'.format(HYPHEN, words))
-                else:
-                    words = [word]     
-            temp.extend(words)       
-    output.append(temp)
+
+# 불필요 토큰 한번 더 제거
+go_words2 = [word for word in go_words if word not in stop_words]
+
+# uncasing
+corpus =  [word for sentence in go_words for word in sentence]
+
+# 총 토큰 수
+print(f'총 토큰 수: {len(corpus)}')
+
+# Frequiency Distribution
+from nltk.probability import FreqDist 
+fdist = FreqDist(corpus)
+fdist.plot(50, cumulative=False)
